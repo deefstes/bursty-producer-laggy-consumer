@@ -1,4 +1,4 @@
-#Concurrency example
+# Concurrency example
 #### Bursty producer and slower but steady consumer
 
 I have a production service that is having to deal with a bursty producer (public facing API endpoint) and a slower but more predictable consumer (writing to database). I wrote this as an exercise in how to implement such a producer and consumer in two separate goroutines.
