@@ -9,7 +9,7 @@ The producer is simply an infinite loop that pushes numbers onto a buffered chan
 
 The idea behind this is that this variable can be exposed as an [expvar](https://pkg.go.dev/expvar) or logged to the service logs so that decisions can be made as to whether and by how much the buffer size (and possibly system resources) should be increased.
 
-The producer is simulated here by sleeping 20 milliseconds between messages and an additional 1 second sleep time with a probability of p=0.1 to simulate burstiness.
+The producer is simulated here by sleeping 20 milliseconds between messages and an additional 1 second sleep time with a probability of p=0.1 to simulate burstiness. The choice of values here is such that, over long enough periods, the producer and consumer will be equally performant (averaging one message every 300ms) but on shorter time scales the producer will occasionally catch up with the consumer.
 
 ###### Consumer
 
@@ -22,7 +22,7 @@ There is nothing fancy about the consumer here. It simply reads messages from th
 
 **illustrate() -** This function reads the abovementioned *prodChan* and *consChan* and calls the *draw()* function to write the state to screen.
 
-**draw() -** This function draws a number scale from 0 to 100 (buffer size) on the screen and shows the current position of the producer on top of the line, the consumer underneath the line and the number of messages in the buffer below that. The producer and consumer pointers will wrap around when it reaches the end of the line but the buffer position will obviously always be somewhere between 0 and 100.
+**draw() -** This function draws a number scale from 0 to 100 (buffer size) on the screen and shows the current position of the producer above the line, the consumer below the line and the number of messages in the buffer below that. The producer and consumer pointers will wrap around when it reaches the end of the line but the buffer position will obviously always be somewhere between 0 and 100.
 
 ###### Caveat
 The *draw()* function makes use of ```fmt.Print("\033[H\033[2J")``` which is effectively a clearscreen command. This will not work on all terminals and might result in unreadable output, depending on which terminal you're using.
